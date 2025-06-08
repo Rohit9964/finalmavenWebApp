@@ -1,6 +1,8 @@
-- name: Deploy to Tomcat
+---
+- name: Deploy and start Tomcat manually
   hosts: web
   become: yes
+
   tasks:
     - name: Copy WAR file to Tomcat
       copy:
@@ -8,7 +10,7 @@
         dest: "/opt/tomcat/webapps/testMavenWebApp.war"
         remote_src: no
 
-    - name: Restart Tomcat
-      systemd:
-        name: tomcat
-        state: restarted
+    - name: Start Tomcat manually
+      shell: sh /opt/tomcat/bin/catalina.sh run
+      async: 0
+      poll: 0
